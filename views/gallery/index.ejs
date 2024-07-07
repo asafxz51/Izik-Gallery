@@ -1,0 +1,31 @@
+<% layout('/layouts/boilerplate') %>
+
+  <h1 class="text-center">Gallery</h1>
+  <div style="text-align: center;" class="mt-5">
+    <a href="/gallery/new">
+      <button type="button" class="btn btn-success">Upload an Image</button>
+    </a>
+  </div>
+  <main class="d-flex mt-5 flex-wrap justify-content-center">
+
+    <% for (let image of images) { %>
+      <div class="card mx-4 mb-4" style="width: 18rem;">
+        <a href="http://localhost:3000/gallery/<%= image._id %>">
+          <img src="<%= image.url.url %>" class="card-img-top" style="height: 16em; object-fit: cover;" alt="...">
+        </a>
+        <div class="card-body">
+          <p class="card-text">
+            <% const length=image.description.substr(0, 60) %>
+              <%= length %>
+                <% if (image.description.length> 60) { %>
+                  ...
+                  <% } %>
+          </p>
+          <p class="card-text" style="text-align: end;">
+            <%= image.date %>
+          </p>
+        </div>
+      </div>
+      <% } %>
+
+  </main>

@@ -1,0 +1,54 @@
+<% layout('/layouts/boilerplate') %>
+
+  <h1 style="text-align: center;">Edit Details</h1>
+
+  <form action="/gallery/<%= image.id %>?_method=PUT" method="POST" class="mx-auto mt-5 validated-form"
+    style="max-width: 400px;" novalidate>
+    <!-- <div class="form-group">
+   <label for="img">Select an Image:</label>
+   <input type="file" name="img" class="form-control" id="img">
+  </div> -->
+    <!-- <div class="form-group">
+   <label for="img">Select an Image:</label>
+   <input type="text" name="image[url]" class="form-control" id="img" value="<%= image.url %>" required>
+   <div class="invalid-feedback">
+    Input cannot be empty.
+   </div> -->
+    </div>
+    <div class="form-group mt-3">
+      <label for="desc">Description:</label>
+      <textarea name="image[description]" id="desc" class="form-control" rows="4"
+        required><%= image.description %></textarea>
+      <div class="invalid-feedback">
+        Input cannot be empty.
+      </div>
+    </div>
+    <div class="form-group mt-3">
+      <label for="date">Date:</label>
+      <input type="date" name="image[date]" class="form-control" id="date" required>
+      <div class="invalid-feedback">
+        Input cannot be empty.
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
+
+  <script>
+    (function () {
+      'use strict'
+
+      const forms = document.querySelectorAll('.validated-form')
+
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+  </script>
