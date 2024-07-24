@@ -1,1 +1,0 @@
-# Izik-Gallery

@@ -17,6 +17,8 @@ const User = require('./models/user')
 
 const imagesRoutes = require('./routes/image')
 const userRoutes = require('./routes/users')
+const contactRoutes = require('./routes/contact')
+const commentRoutes = require('./routes/comment')
 
 // database
 mongoose.connect('mongodb://0.0.0.0:27017/izik')
@@ -47,13 +49,6 @@ const sessionConfig = {
 
 app.use(session(sessionConfig))
 
-// flash
-app.use(flash())
-app.use((req, res, next) => {
- res.locals.success = req.flash('success')
- res.locals.error = req.flash('error')
- next()
-})
 
 // paspport
 app.use(passport.initialize())
@@ -61,15 +56,33 @@ app.use(passport.session())
 passport.use(new LocalStrategy(User.authenticate()))
 
 passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
+// flash and currentUser
+app.use(flash())
+app.use((req, res, next) => {
+ res.locals.currentUser = req.user
+ res.locals.success = req.flash('success')
+ res.locals.error = req.flash('error')
+ next()
+})
+
 
 // routes
 app.use('/gallery', imagesRoutes)
+app.use('/contact', contactRoutes)
 app.use('/', userRoutes)
+app.use('/gallery/:id/comments', commentRoutes)
 
 app.get('/', (req, res) => {
  res.render('home')
 })
+
+app.get('/aboutme', (req, res) => {
+ res.render('aboutme')
+})
+
+
 
 // error handlers
 app.all('*', (req, res, next) => {

@@ -8,3 +8,9 @@ module.exports.imageSchema = Joi.object({
   date: Joi.string().required()
  }).required()
 })
+
+module.exports.commentSchema = Joi.object({
+ comment: Joi.object({
+  message: Joi.string().required()
+ })
+})

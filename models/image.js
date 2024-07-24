@@ -8,7 +8,15 @@ const ImageSchema = new Schema({
   public_id: String
  },
  description: String,
- date: String
+ date: String,
+ author: {
+  type: Schema.Types.ObjectId,
+  ref: 'User'
+ },
+ comments: [{
+  type: Schema.Types.ObjectId,
+  ref: 'Comment'
+ }]
 })
 
 module.exports = mongoose.model('Image', ImageSchema)

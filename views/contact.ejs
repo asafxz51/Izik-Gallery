@@ -1,0 +1,61 @@
+<% layout('/layouts/boilerplate') %>
+
+  <h1 class="text-center">Contact Me</h1>
+
+  <div class="card col-md-6 offset-md-3 mt-5">
+    <div class="card-header">
+     Contact via Email: izik.zuriel@gmail.com
+    </div>
+    <div class="card-body">
+      <form action="/contact" method="POST" class="d-flex flex-column mx-5 mt-3 validated-form" novalidate>
+        <label for="contact" class="mb-2"> Contact via direct message:</label>
+        <textarea name="contact[message]" id="contact" rows="5" required></textarea>
+        <div class="invalid-feedback">
+          Input cannot be empty.
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+        <p>Response will be sent to your email.</p>
+      </form>
+    </div>
+  </div>
+
+<% if (currentUser && currentUser.isAdmin===true) { %>
+  <div class="col-md-6 offset-md-3 my-5">
+    <h2>New messages:</h2>
+    <% const latestMessages=messages.slice(-10);
+      latestMessages.forEach(message=> {
+      %>
+      <div class="card mt-3">
+        <h5 class="card-header">From: <%= message.user.username %>
+        </h5>
+        <h5 class="card-header">Email: <%= message.user.email %>
+        </h5>
+        <div class="card-body">
+          <p class="card-text">
+            <%= message.message %>
+          </p>
+        </div>
+      </div>
+      <% }); %>
+  </div>
+  <% } %>
+
+      <script>
+        (function () {
+          'use strict'
+
+          const forms = document.querySelectorAll('.validated-form')
+
+          Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+              form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                  event.preventDefault()
+                  event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+              }, false)
+            })
+        })()
+      </script>
